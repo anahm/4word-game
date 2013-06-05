@@ -44,20 +44,29 @@ def check_related(new):
         return True
 
     # can only be one character off from the previously added word.
-    regex = '[A-Z]'
-    patterns = []
-    patterns.append(new.replace(new[0], regex))
-    patterns.append(new.replace(new[1], regex))
-    patterns.append(new.replace(new[2], regex))
-    patterns.append(new.replace(new[3], regex))
+    # use simple hamming distance? - Saagar
+    diffs = 0
+    for ch1, ch2 in zip(new, said_words):
+        if ch1 != ch2:
+            diffs += 1
 
-    for p in patterns:
-        m = re.search(p, said_words[-1])
-        if (m):
-            return True
-
+    if diffs == 1:
+        return True
     return False
 
+    # regex = '[A-Z]'
+    # patterns = []
+    # patterns.append(new.replace(new[0], regex))
+    # patterns.append(new.replace(new[1], regex))
+    # patterns.append(new.replace(new[2], regex))
+    # patterns.append(new.replace(new[3], regex))
+
+    # for p in patterns:
+        # m = re.search(p, said_words[-1])
+        # if (m):
+            # return True
+
+    # return False
 
 def check(new):
     if (len(new) != 4):
@@ -105,6 +114,7 @@ def find_next(new):
 
 
 # create a list of the words that have been said.
+# TODO - use a set here? O(1) lookup - Saagar
 said_words = []
 
 main()
